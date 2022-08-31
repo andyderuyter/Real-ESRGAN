@@ -27,6 +27,7 @@ def main():
     parser.add_argument('--tile_pad', type=int, default=10, help='Tile padding')
     parser.add_argument('--pre_pad', type=int, default=0, help='Pre padding size at each border')
     parser.add_argument('--face_enhance', action='store_true', help='Use GFPGAN to enhance face')
+    parser.add_argument('--face_version', type=str, default='1.3', help='GFPGAN versions: 1.3 | 1.2 | 1.0')
     parser.add_argument(
         '--fp32',
         action='store_true',
@@ -45,7 +46,12 @@ def main():
         help='Image extension. Options: auto | jpg | png, auto means using the same extension as inputs'
     )
     parser.add_argument(
-        '-g', '--gpu-id', type=int, default=None, help='gpu device to use (default=None) can be 0,1,2 for multi-gpu')
+        '-g',
+        '--gpu-id',
+        type=int,
+        default=None,
+        help='gpu device to use (default=None) can be 0,1,2 for multi-gpu'
+    )
 
     args = parser.parse_args()
 
@@ -85,8 +91,14 @@ def main():
 
     if args.face_enhance:  # Use GFPGAN for face enhancement
         from gfpgan import GFPGANer
+        if args.face_version == "1.3":
+            model_url='https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.3.pth'
+        elif args.face_version == "1.2"
+            model_url='https://github.com/TencentARC/GFPGAN/releases/download/v0.2.0/GFPGANCleanv1-NoCE-C2.pth'
+        else args.face_version == "1.0"
+            model_url='https://github.com/TencentARC/GFPGAN/releases/download/v0.1.0/GFPGANv1.pth'
         face_enhancer = GFPGANer(
-            model_path='https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.3.pth',
+            model_path=model_url,
             upscale=args.outscale,
             arch='clean',
             channel_multiplier=2,
