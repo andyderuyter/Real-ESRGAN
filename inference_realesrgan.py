@@ -91,19 +91,37 @@ def main():
 
     if args.face_enhance:  # Use GFPGAN for face enhancement
         from gfpgan import GFPGANer
+
         if args.face_version == "1.3":
             model_url='https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.3.pth'
+            face_enhancer = GFPGANer(
+                model_path=model_url,
+                upscale=args.outscale,
+                arch='clean',
+                channel_multiplier=2,
+                bg_upsampler=upsampler
+            )
+
         if args.face_version == "1.2":
             model_url='https://github.com/TencentARC/GFPGAN/releases/download/v0.2.0/GFPGANCleanv1-NoCE-C2.pth'
+            face_enhancer = GFPGANer(
+                model_path=model_url,
+                upscale=args.outscale,
+                arch='clean',
+                channel_multiplier=2,
+                bg_upsampler=upsampler
+            )
+
         if args.face_version == "1.0":
             model_url='https://github.com/TencentARC/GFPGAN/releases/download/v0.1.0/GFPGANv1.pth'
-        face_enhancer = GFPGANer(
-            model_path=model_url,
-            upscale=args.outscale,
-            arch='clean',
-            channel_multiplier=2,
-            bg_upsampler=upsampler
-        )
+            face_enhancer = GFPGANer(
+                model_path=model_url,
+                upscale=args.outscale,
+                arch='original',
+                channel_multiplier=1,
+                bg_upsampler=upsampler
+            )
+
     os.makedirs(args.output, exist_ok=True)
 
     if os.path.isfile(args.input):
