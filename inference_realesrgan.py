@@ -93,9 +93,9 @@ def main():
         from gfpgan import GFPGANer
         if args.face_version == "1.3":
             model_url='https://github.com/TencentARC/GFPGAN/releases/download/v1.3.0/GFPGANv1.3.pth'
-        if args.face_version == "1.2"
+        if args.face_version == "1.2":
             model_url='https://github.com/TencentARC/GFPGAN/releases/download/v0.2.0/GFPGANCleanv1-NoCE-C2.pth'
-        if args.face_version == "1.0"
+        if args.face_version == "1.0":
             model_url='https://github.com/TencentARC/GFPGAN/releases/download/v0.1.0/GFPGANv1.pth'
         face_enhancer = GFPGANer(
             model_path=model_url,
